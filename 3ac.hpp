@@ -491,6 +491,7 @@ private:
 	std::list<Quad *> * bodyQuads;
 	std::string myName;
 	size_t maxTmp;
+	int loc_offset;
 };
 
 class IRProgram{

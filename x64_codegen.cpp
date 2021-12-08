@@ -9,7 +9,7 @@ void IRProgram::allocGlobals(){
 	{
 		SymOpd * globalOpd = g.second;
 		std::string memLoc = "glb_";
-		const SemSymbol sym = globalOpd->getSym();
+		const SemSymbol * sym = globalOpd->getSym();
 		memLoc += sym->getName();
 		globalOpd->setMemoryLoc("(" + memLoc + ")");
 	}
@@ -26,7 +26,7 @@ void IRProgram::datagenX64(std::ostream& out){
 	{
 		SymOpd * globalOpd = g.second;
 		std::string memLoc = "glb_";
-		const SemSymbol sym = globalOpd->getSym();
+		const SemSymbol * sym = globalOpd->getSym();
 		memLoc += sym->getName();
 		size_t width = sym->getDataType()->getSize();
 		out << memLoc << ": ";
@@ -62,12 +62,12 @@ void IRProgram::toX64(std::ostream& out){
 void Procedure::allocLocals(){
 	//Allocate space for locals
 	// Iterate over each procedure and codegen it
-	int offset = 24;
+	loc_offset = 24;
 	for (auto t: temps)
 	{
 		SymOpd * tempsOpd = t.second;
 		std::string memLoc = "loc_";
-		const SemSymbol sym = tempsOpd->getSym();
+		const SemSymbol * sym = tempsOpd->getSym();
 		memLoc += sym->getName();
 		tempsOpd->setMemoryLoc("-" + offset + "%rsp(" + memLoc + ")");
 		offset = offset + 8;
@@ -76,7 +76,7 @@ void Procedure::allocLocals(){
 	{
 		SymOpd * localsOpd = l.second;
 		std::string memLoc = "loc_";
-		const SemSymbol sym = localsOpd->getSym();
+		const SemSymbol * sym = localsOpd->getSym();
 		memLoc += sym->getName();
 		localsOpd->setMemoryLoc("-" + offset + "%rsp(" + memLoc + ")");
 		offset = offset + 8;
@@ -85,7 +85,7 @@ void Procedure::allocLocals(){
 	{
 		SymOpd * formalsOpd = f.second;
 		std::string memLoc = "loc_";
-		const SemSymbol sym = formalsOpd->getSym();
+		const SemSymbol * sym = formalsOpd->getSym();
 		memLoc += sym->getName();
 		formalsOpd->setMemoryLoc("-" + offset + "%rsp(" + memLoc + ")");
 		offset = offset + 8;
@@ -170,13 +170,18 @@ void CallQuad::codegenX64(std::ostream& out){
 }
 
 void EnterQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
-	// prolog
+	// need to find a way to get all allocated space on the stack
+	out << "     pushq %rbp\n";
+	out << "     movq %rsp, %rbp\n";
+	out << "     addq %16, %rbp\n";
+	out << "     subq %" + loc_offset + ", %rsp\n";
 }
 
 void LeaveQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
-	// exit 
+	// need to find a way to get all allocated space on the stack
+	out << "     addq %" + loc_offset + ", %rsp\n";
+	out << "     popq %rbp\n";
+	out << "     retq\n";
 }
 
 void SetArgQuad::codegenX64(std::ostream& out){
