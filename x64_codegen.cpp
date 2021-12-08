@@ -156,8 +156,8 @@ void IntrinsicOutputQuad::codegenX64(std::ostream& out){
 		myArg->genLoadVal(out, DI);
 		out << "     callq printBool\n";
 	} else {
-		TODO(Implement me)
-
+		myArg->genLoadVal(out, DI);
+		out << "     callq printInt\n";
 	}
 }
 
