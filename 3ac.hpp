@@ -379,7 +379,7 @@ class EnterQuad : public Quad{
 public:
 	EnterQuad(Procedure * proc);
 	virtual std::string repr() override;
-	void codegenX64(std::ostream& out, int offset) override;
+	void codegenX64(std::ostream& out, int offset);
 private:
 	Procedure * myProc;
 };
@@ -388,7 +388,7 @@ class LeaveQuad : public Quad{
 public:
 	LeaveQuad(Procedure * proc);
 	virtual std::string repr() override;
-	void codegenX64(std::ostream& out, int offset) override;
+	void codegenX64(std::ostream& out, int offset);
 private:
 	Procedure * myProc;
 };
