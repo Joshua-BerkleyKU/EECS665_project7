@@ -1,5 +1,5 @@
-bool a;
 int main()
 {
+	bool a;
 	report a;
 }
