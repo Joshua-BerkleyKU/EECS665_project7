@@ -170,6 +170,7 @@ void CallQuad::codegenX64(std::ostream& out){
 
 void EnterQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
+	//todo change 0 to real val
 	out << "      pushq %rbp\n";
 	out << "      movq %rsp, %rbp\n";
 	out << "      addq $16, %rbp\n";
@@ -178,6 +179,7 @@ void EnterQuad::codegenX64(std::ostream& out){
 
 void LeaveQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
+	//todo change 0 to real val
 	out << "      addq $0, %rsp\n";
 	out << "      popq %rbp\n";
 	out << "      retq\n";
