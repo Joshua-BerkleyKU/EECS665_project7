@@ -241,8 +241,8 @@ void IfzQuad::codegenX64(std::ostream& out){
 	<< cnd->getMovOp()
 	<< " "
 	<< cnd->getMemoryLoc()
-	<< ", \%rcx\n"
-	<< "      cmpq $0, \%rcx\n"
+	<< ", %rcx\n"
+	<< "      cmpq $0, %rcx\n"
 	<< "      je "
 	<< tgt->getName()
 	<< std::endl;
@@ -282,7 +282,7 @@ void IntrinsicInputQuad::codegenX64(std::ostream& out){
 }
 
 void CallQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+	out << "      callq " << callee->getName() << std::endl;
 }
 
 void EnterQuad::codegenX64(std::ostream& out){
