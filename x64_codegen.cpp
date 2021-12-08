@@ -157,36 +157,48 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
+		out << "      sete \%cl\n";
 	}
 	else if (opr == NEQ64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
+		out << "      setne \%cl\n";
 	}
 	else if (opr == LT64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
+		out << "      setl \%cl\n";
 	}
 	else if (opr == GT64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
+		out << "      setg \%cl\n";
 	}
 	else if (opr == LTE64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
+		out << "      setle \%cl\n";
 	}
 	else if (opr == GTE64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
+		out << "      setge \%cl\n";
 	}
 	else if (opr == OR64)
 	{
@@ -296,14 +308,25 @@ void IndexQuad::codegenX64(std::ostream& out){
 }
 
 void SymOpd::genLoadVal(std::ostream& out, Register reg){
-	// need to do more
-	// need to worry about how long the stuff is 
-	out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
-	//TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", " << RegUtils::reg8(reg) << "\n";
+	}
 }
 
 void SymOpd::genStoreVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << RegUtils::reg64(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
+	else
+	{
+		out << "      movb " << RegUtils::reg8(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
 }
 
 void SymOpd::genLoadAddr(std::ostream& out, Register reg) {
@@ -311,11 +334,25 @@ void SymOpd::genLoadAddr(std::ostream& out, Register reg) {
 }
 
 void AuxOpd::genLoadVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", " << RegUtils::reg8(reg) << "\n";
+	}
 }
 
 void AuxOpd::genStoreVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << RegUtils::reg64(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
+	else
+	{
+		out << "      movb " << RegUtils::reg8(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
 }
 void AuxOpd::genLoadAddr(std::ostream& out, Register reg){
 	TODO(Implement me)
@@ -323,11 +360,25 @@ void AuxOpd::genLoadAddr(std::ostream& out, Register reg){
 
 
 void AddrOpd::genStoreVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << RegUtils::reg64(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
+	else
+	{
+		out << "      movb " << RegUtils::reg8(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
 }
 
 void AddrOpd::genLoadVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", " << RegUtils::reg8(reg) << "\n";
+	}
 }
 
 void AddrOpd::genStoreAddr(std::ostream& out, Register reg){
