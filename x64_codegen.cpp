@@ -65,11 +65,10 @@ void Procedure::allocLocals(){
 	loc_offset = 24;
 	for (auto t: temps)
 	{
-		SymOpd * tempsOpd = t.second;
 		std::string memLoc = "loc_";
-		const SemSymbol * sym = tempsOpd->getSym();
+		const SemSymbol * sym = t->getSym();
 		memLoc += sym->getName();
-		tempsOpd->setMemoryLoc("-" + loc_offset + "%rsp(" + memLoc + ")");
+		t->setMemoryLoc("-" + loc_offset + "%rsp(" + memLoc + ")");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto l: locals)
@@ -83,11 +82,10 @@ void Procedure::allocLocals(){
 	}
 	for (auto f: formals)
 	{
-		SymOpd * formalsOpd = f.second;
 		std::string memLoc = "loc_";
-		const SemSymbol * sym = formalsOpd->getSym();
+		const SemSymbol * sym = f->getSym();
 		memLoc += sym->getName();
-		formalsOpd->setMemoryLoc("-" + loc_offset + "%rsp(" + memLoc + ")");
+		f->setMemoryLoc("-" + loc_offset + "%rsp(" + memLoc + ")");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto a: addrOpds)
@@ -102,7 +100,7 @@ void Procedure::toX64(std::ostream& out){
 	allocLocals();
 
 	enter->codegenLabels(out);
-	enter->codegenX64(out, loc_offset);
+	enter->codegenX64(out);
 	out << "#Fn body " << myName << "\n";
 	for (auto quad : *bodyQuads){
 		quad->codegenLabels(out);
@@ -111,7 +109,7 @@ void Procedure::toX64(std::ostream& out){
 	}
 	out << "#Fn epilogue " << myName << "\n";
 	leave->codegenLabels(out);
-	leave->codegenX64(out, loc_offset);
+	leave->codegenX64(out);
 }
 
 void Quad::codegenLabels(std::ostream& out){
@@ -169,17 +167,17 @@ void CallQuad::codegenX64(std::ostream& out){
 	TODO(Implement me)
 }
 
-void EnterQuad::codegenX64(std::ostream& out, int offset){
+void EnterQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
 	out << "     pushq %rbp\n";
 	out << "     movq %rsp, %rbp\n";
 	out << "     addq %16, %rbp\n";
-	out << "     subq %" + offset + ", %rsp\n";
+	out << "     subq %" +  + ", %rsp\n";
 }
 
-void LeaveQuad::codegenX64(std::ostream& out, int offset){
+void LeaveQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
-	out << "     addq %" + offset + ", %rsp\n";
+	out << "     addq %" +  + ", %rsp\n";
 	out << "     popq %rbp\n";
 	out << "     retq\n";
 }
