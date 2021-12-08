@@ -5,11 +5,41 @@ namespace cshanty{
 
 void IRProgram::allocGlobals(){
 	//Choose a label for each global
-	TODO(Implement me)
+	for (auto g: globals)
+	{
+		SymOpd * globalOpd = g.second;
+		std::string memLoc = "glb_";
+		const SemSymbol sym = globalOpd->getSym();
+		memLoc += sym->getName();
+		globalOpd->setMemoryLoc("(" + memLoc + ")");
+	}
+	for (auto s: strings)
+	{
+		TODO(Implement me)
+	}
 }
 
 void IRProgram::datagenX64(std::ostream& out){
-	TODO(Write out data section)
+	out << ".data\n";
+	out << ".globl main\n";
+	for (auto g: globals)
+	{
+		SymOpd * globalOpd = g.second;
+		std::string memLoc = "glb_";
+		const SemSymbol sym = globalOpd->getSym();
+		memLoc += sym->getName();
+		size_t width = sym->getDataType()->getSize();
+		out << memLoc << ": ";
+		if (width == 8)
+		{
+			out << ".quad 0 \n";
+		}
+		else
+		{
+			out << ".space " << width << "\n";
+		}
+		
+	}
 	//Put this directive after you write out strings
 	// so that everything is aligned to a quadword value
 	// again
@@ -20,14 +50,35 @@ void IRProgram::datagenX64(std::ostream& out){
 void IRProgram::toX64(std::ostream& out){
 	allocGlobals();
 	datagenX64(out);
+	out << ".text \n";
 	// Iterate over each procedure and codegen it
-	TODO(Implement me)
+	for (auto proc: *this->procs)
+	{
+		proc->toX64(out);
+	}
 }
 
 void Procedure::allocLocals(){
 	//Allocate space for locals
 	// Iterate over each procedure and codegen it
-	TODO(Implement me)
+	for (auto t: temps)
+	{
+		TODO(Implement me)
+		// somthing like globles t->setMemoryLoc();
+	}
+	for (auto l: locals)
+	{
+		TODO(Implement me)
+	}
+	for (auto f: formals)
+	{
+		TODO(Implement me)
+	}
+	for (auto a: addrOpds)
+	{
+		//may never happen
+		TODO(Implement me)
+	}
 }
 
 void Procedure::toX64(std::ostream& out){
@@ -73,7 +124,7 @@ void AssignQuad::codegenX64(std::ostream& out){
 }
 
 void GotoQuad::codegenX64(std::ostream& out){
-	out << "jmp " << tgt->getName() << "\n";
+	out << "     jmp " << tgt->getName() << "\n";
 }
 
 void IfzQuad::codegenX64(std::ostream& out){
@@ -81,13 +132,13 @@ void IfzQuad::codegenX64(std::ostream& out){
 }
 
 void NopQuad::codegenX64(std::ostream& out){
-	out << "nop" << "\n";
+	out << "     nop" << "\n";
 }
 
 void IntrinsicOutputQuad::codegenX64(std::ostream& out){
 	if (myType->isBool()){
 		myArg->genLoadVal(out, DI);
-		out << "callq printBool\n";
+		out << "     callq printBool\n";
 	} else {
 		TODO(Implement me)
 
@@ -104,10 +155,12 @@ void CallQuad::codegenX64(std::ostream& out){
 
 void EnterQuad::codegenX64(std::ostream& out){
 	TODO(Implement me)
+	// prolog
 }
 
 void LeaveQuad::codegenX64(std::ostream& out){
 	TODO(Implement me)
+	// exit 
 }
 
 void SetArgQuad::codegenX64(std::ostream& out){
@@ -131,7 +184,10 @@ void IndexQuad::codegenX64(std::ostream& out){
 }
 
 void SymOpd::genLoadVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	// need to do more
+	// need to worry about how long the stuff is 
+	out << "     movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	//TODO(Implement me)
 }
 
 void SymOpd::genStoreVal(std::ostream& out, Register reg){
