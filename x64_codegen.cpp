@@ -69,7 +69,7 @@ void Procedure::allocLocals(){
 		std::string memLoc = "loc_";
 		const SemSymbol sym = tempsOpd->getSym();
 		memLoc += sym->getName();
-		tempsOpd->setMemoryLoc("-" + offset + "(" + memLoc + ")");
+		tempsOpd->setMemoryLoc("-" + offset + "%rsp(" + memLoc + ")");
 		offset = offset + 8;
 	}
 	for (auto l: locals)
@@ -78,7 +78,7 @@ void Procedure::allocLocals(){
 		std::string memLoc = "loc_";
 		const SemSymbol sym = localsOpd->getSym();
 		memLoc += sym->getName();
-		localsOpd->setMemoryLoc("-" + offset + "(" + memLoc + ")");
+		localsOpd->setMemoryLoc("-" + offset + "%rsp(" + memLoc + ")");
 		offset = offset + 8;
 	}
 	for (auto f: formals)
@@ -87,7 +87,7 @@ void Procedure::allocLocals(){
 		std::string memLoc = "loc_";
 		const SemSymbol sym = formalsOpd->getSym();
 		memLoc += sym->getName();
-		formalsOpd->setMemoryLoc("-" + offset + "(" + memLoc + ")");
+		formalsOpd->setMemoryLoc("-" + offset + "%rsp(" + memLoc + ")");
 		offset = offset + 8;
 	}
 	for (auto a: addrOpds)
