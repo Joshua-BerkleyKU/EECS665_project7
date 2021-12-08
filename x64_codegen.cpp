@@ -300,14 +300,25 @@ void IndexQuad::codegenX64(std::ostream& out){
 }
 
 void SymOpd::genLoadVal(std::ostream& out, Register reg){
-	// need to do more
-	// need to worry about how long the stuff is 
-	out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
-	//TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", " << RegUtils::reg8(reg) << "\n";
+	}
 }
 
 void SymOpd::genStoreVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << RegUtils::reg64(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
+	else
+	{
+		out << "      movb " << RegUtils::reg8(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
 }
 
 void SymOpd::genLoadAddr(std::ostream& out, Register reg) {
@@ -315,11 +326,25 @@ void SymOpd::genLoadAddr(std::ostream& out, Register reg) {
 }
 
 void AuxOpd::genLoadVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", " << RegUtils::reg8(reg) << "\n";
+	}
 }
 
 void AuxOpd::genStoreVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << RegUtils::reg64(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
+	else
+	{
+		out << "      movb " << RegUtils::reg8(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
 }
 void AuxOpd::genLoadAddr(std::ostream& out, Register reg){
 	TODO(Implement me)
@@ -327,11 +352,25 @@ void AuxOpd::genLoadAddr(std::ostream& out, Register reg){
 
 
 void AddrOpd::genStoreVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << RegUtils::reg64(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
+	else
+	{
+		out << "      movb " << RegUtils::reg8(reg) << ", " << this->getMemoryLoc() << "\n";
+	}
 }
 
 void AddrOpd::genLoadVal(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", " << RegUtils::reg8(reg) << "\n";
+	}
 }
 
 void AddrOpd::genStoreAddr(std::ostream& out, Register reg){
