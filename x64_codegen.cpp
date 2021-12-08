@@ -68,7 +68,7 @@ void Procedure::allocLocals(){
 		std::string memLoc = "loc_";
 		memLoc += t->getName();
 		std::string temp = std::to_string(loc_offset);
-		t->setMemoryLoc("-" + temp + "%rsp(" + memLoc + ")");
+		t->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto l: locals)
@@ -78,7 +78,7 @@ void Procedure::allocLocals(){
 		const SemSymbol * sym = localsOpd->getSym();
 		memLoc += sym->getName();
 		std::string temp = std::to_string(loc_offset);
-		localsOpd->setMemoryLoc("-" + temp + "%rsp(" + memLoc + ")");
+		localsOpd->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto f: formals)
@@ -86,7 +86,7 @@ void Procedure::allocLocals(){
 		std::string memLoc = "loc_";
 		std::string temp = std::to_string(loc_offset);
 		memLoc += f->getName();
-		f->setMemoryLoc("-" + temp + "%rsp(" + memLoc + ")");
+		f->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto a: addrOpds)
@@ -139,7 +139,7 @@ void AssignQuad::codegenX64(std::ostream& out){
 }
 
 void GotoQuad::codegenX64(std::ostream& out){
-	out << "     jmp " << tgt->getName() << "\n";
+	out << "      jmp " << tgt->getName() << "\n";
 }
 
 void IfzQuad::codegenX64(std::ostream& out){
@@ -147,16 +147,16 @@ void IfzQuad::codegenX64(std::ostream& out){
 }
 
 void NopQuad::codegenX64(std::ostream& out){
-	out << "     nop" << "\n";
+	out << "      nop" << "\n";
 }
 
 void IntrinsicOutputQuad::codegenX64(std::ostream& out){
 	if (myType->isBool()){
 		myArg->genLoadVal(out, DI);
-		out << "     callq printBool\n";
+		out << "      callq printBool\n";
 	} else {
 		myArg->genLoadVal(out, DI);
-		out << "     callq printInt\n";
+		out << "      callq printInt\n";
 	}
 }
 
@@ -170,17 +170,17 @@ void CallQuad::codegenX64(std::ostream& out){
 
 void EnterQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
-	out << "     pushq %rbp\n";
-	out << "     movq %rsp, %rbp\n";
-	out << "     addq %16, %rbp\n";
-	out << "     subq %, %rsp\n";
+	out << "      pushq %rbp\n";
+	out << "      movq %rsp, %rbp\n";
+	out << "      addq $16, %rbp\n";
+	out << "      subq $0, %rsp\n";
 }
 
 void LeaveQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
-	out << "     addq %, %rsp\n";
-	out << "     popq %rbp\n";
-	out << "     retq\n";
+	out << "      addq $0, %rsp\n";
+	out << "      popq %rbp\n";
+	out << "      retq\n";
 }
 
 void SetArgQuad::codegenX64(std::ostream& out){
