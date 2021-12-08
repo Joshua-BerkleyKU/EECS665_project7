@@ -68,7 +68,7 @@ void Procedure::allocLocals(){
 		std::string memLoc = "loc_";
 		memLoc += t->getName();
 		std::string temp = std::to_string(loc_offset);
-		t->setMemoryLoc("-" + temp + "%rsp(" + memLoc + ")");
+		t->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto l: locals)
@@ -78,7 +78,7 @@ void Procedure::allocLocals(){
 		const SemSymbol * sym = localsOpd->getSym();
 		memLoc += sym->getName();
 		std::string temp = std::to_string(loc_offset);
-		localsOpd->setMemoryLoc("-" + temp + "%rsp(" + memLoc + ")");
+		localsOpd->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto f: formals)
@@ -86,7 +86,7 @@ void Procedure::allocLocals(){
 		std::string memLoc = "loc_";
 		std::string temp = std::to_string(loc_offset);
 		memLoc += f->getName();
-		f->setMemoryLoc("-" + temp + "%rsp(" + memLoc + ")");
+		f->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto a: addrOpds)
@@ -126,11 +126,93 @@ void Quad::codegenLabels(std::ostream& out){
 }
 
 void BinOpQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+
+	if (opr == ADD64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      addq %rax, %rbx\n";
+	}
+	else if (opr == SUB64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      subq %rax, %rbx\n";
+	}
+	else if (opr == DIV64)
+	{
+		out << "      movq $0, %rax\n";
+		src1->genLoadVal(out, B);
+		src2->genLoadVal(out, C);
+		out << "      idivq %rcx\n";
+	}
+	else if (opr == MULT64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      imulq %rbx\n";
+	}
+	else if (opr == EQ64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
+	}
+	else if (opr == NEQ64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
+	}
+	else if (opr == LT64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
+	}
+	else if (opr == GT64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
+	}
+	else if (opr == LTE64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
+	}
+	else if (opr == GTE64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
+	}
+	else if (opr == OR64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      orq %rax, %rbx\n";
+	}
+	else if (opr == AND64)
+	{
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      andq %rax, %rbx\n";
+	}
 }
 
 void UnaryOpQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+	src->genLoadVal(out, A);
+
+	if (op == NEG64)
+	{
+		out << "      negq %rax\n";
+	}
+	else if (op == NOT64)
+	{
+		out << "      notq %rax\n";
+	}
 }
 
 void AssignQuad::codegenX64(std::ostream& out){
@@ -139,7 +221,7 @@ void AssignQuad::codegenX64(std::ostream& out){
 }
 
 void GotoQuad::codegenX64(std::ostream& out){
-	out << "     jmp " << tgt->getName() << "\n";
+	out << "      jmp " << tgt->getName() << "\n";
 }
 
 void IfzQuad::codegenX64(std::ostream& out){
@@ -147,16 +229,16 @@ void IfzQuad::codegenX64(std::ostream& out){
 }
 
 void NopQuad::codegenX64(std::ostream& out){
-	out << "     nop" << "\n";
+	out << "      nop" << "\n";
 }
 
 void IntrinsicOutputQuad::codegenX64(std::ostream& out){
 	if (myType->isBool()){
 		myArg->genLoadVal(out, DI);
-		out << "     callq printBool\n";
+		out << "      callq printBool\n";
 	} else {
 		myArg->genLoadVal(out, DI);
-		out << "     callq printInt\n";
+		out << "      callq printInt\n";
 	}
 }
 
@@ -170,17 +252,19 @@ void CallQuad::codegenX64(std::ostream& out){
 
 void EnterQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
-	out << "     pushq %rbp\n";
-	out << "     movq %rsp, %rbp\n";
-	out << "     addq %16, %rbp\n";
-	out << "     subq %, %rsp\n";
+	//todo change 0 to real val
+	out << "      pushq %rbp\n";
+	out << "      movq %rsp, %rbp\n";
+	out << "      addq $16, %rbp\n";
+	out << "      subq $8, %rsp\n";
 }
 
 void LeaveQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
-	out << "     addq %, %rsp\n";
-	out << "     popq %rbp\n";
-	out << "     retq\n";
+	//todo change 0 to real val
+	out << "      addq $8, %rsp\n";
+	out << "      popq %rbp\n";
+	out << "      retq\n";
 }
 
 void SetArgQuad::codegenX64(std::ostream& out){
@@ -206,7 +290,7 @@ void IndexQuad::codegenX64(std::ostream& out){
 void SymOpd::genLoadVal(std::ostream& out, Register reg){
 	// need to do more
 	// need to worry about how long the stuff is 
-	out << "     movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
 	//TODO(Implement me)
 }
 
