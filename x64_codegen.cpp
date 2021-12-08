@@ -20,8 +20,8 @@ void IRProgram::allocGlobals(){
 }
 
 void IRProgram::datagenX64(std::ostream& out){
-	out << ".data\n";
 	out << ".globl main\n";
+	out << ".data\n";
 	for (auto g: globals)
 	{
 		SymOpd * globalOpd = g.second;
@@ -51,6 +51,7 @@ void IRProgram::toX64(std::ostream& out){
 	allocGlobals();
 	datagenX64(out);
 	out << ".text \n";
+	//might need more stuff here
 	// Iterate over each procedure and codegen it
 	for (auto proc: *this->procs)
 	{
@@ -61,18 +62,33 @@ void IRProgram::toX64(std::ostream& out){
 void Procedure::allocLocals(){
 	//Allocate space for locals
 	// Iterate over each procedure and codegen it
+	int offset = 24;
 	for (auto t: temps)
 	{
-		TODO(Implement me)
-		// somthing like globles t->setMemoryLoc();
+		SymOpd * tempsOpd = t.second;
+		std::string memLoc = "loc_";
+		const SemSymbol sym = tempsOpd->getSym();
+		memLoc += sym->getName();
+		tempsOpd->setMemoryLoc("-" + offset + "(" + memLoc + ")");
+		offset = offset + 8;
 	}
 	for (auto l: locals)
 	{
-		TODO(Implement me)
+		SymOpd * localsOpd = l.second;
+		std::string memLoc = "loc_";
+		const SemSymbol sym = localsOpd->getSym();
+		memLoc += sym->getName();
+		localsOpd->setMemoryLoc("-" + offset + "(" + memLoc + ")");
+		offset = offset + 8;
 	}
 	for (auto f: formals)
 	{
-		TODO(Implement me)
+		SymOpd * formalsOpd = f.second;
+		std::string memLoc = "loc_";
+		const SemSymbol sym = formalsOpd->getSym();
+		memLoc += sym->getName();
+		formalsOpd->setMemoryLoc("-" + offset + "(" + memLoc + ")");
+		offset = offset + 8;
 	}
 	for (auto a: addrOpds)
 	{
