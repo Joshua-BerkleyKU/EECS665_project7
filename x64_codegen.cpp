@@ -156,49 +156,43 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src2->genLoadVal(out, B);
 		out << "      imulq %rbx\n";
 		dst->genStoreVal(out, A);
-	}
+	}/* need to figure this out 
 	else if (opr == EQ64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
-		out << "      subq %rax, %rbx\n";
-		dst->genStoreVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
 	}
 	else if (opr == NEQ64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
-		out << "      subq %rax, %rbx\n";
-		dst->genStoreVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
 	}
 	else if (opr == LT64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
-		out << "      subq %rax, %rbx\n";
-		dst->genStoreVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
 	}
 	else if (opr == GT64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
-		out << "      subq %rax, %rbx\n";
-		dst->genStoreVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
 	}
 	else if (opr == LTE64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
-		out << "      subq %rax, %rbx\n";
-		dst->genStoreVal(out, B);
+		out << "      cmpq %rax, %rbx\n";
 	}
 	else if (opr == GTE64)
 	{
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
-		out << "      subq %rax, %rbx\n";
-		dst->genStoreVal(out, B);
-	}
+		out << "      cmpq %rax, %rbx\n";
+	}*/
 	else if (opr == OR64)
 	{
 		src1->genLoadVal(out, A);
