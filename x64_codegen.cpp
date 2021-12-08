@@ -174,13 +174,13 @@ void EnterQuad::codegenX64(std::ostream& out){
 	out << "      pushq %rbp\n";
 	out << "      movq %rsp, %rbp\n";
 	out << "      addq $16, %rbp\n";
-	out << "      subq $0, %rsp\n";
+	out << "      subq $8, %rsp\n";
 }
 
 void LeaveQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
 	//todo change 0 to real val
-	out << "      addq $0, %rsp\n";
+	out << "      addq $8, %rsp\n";
 	out << "      popq %rbp\n";
 	out << "      retq\n";
 }
