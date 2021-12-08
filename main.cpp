@@ -196,12 +196,12 @@ main( const int argc, const char **argv )
 				if (i >= argc){ usageAndDie(); }
 				threeACFile = argv[i];
 				useful = true;
-			} else if (argv[i][1] == 'o'){
-                i++;
-                if (i >= argc){ usageAndDie(); }
-                asmFile = argv[i];
-                useful = true;
-			} else {
+			}  else if(argv[i][1] == 'o'){
+				i++;
+				if (i >= argc){ usageAndDie(); }
+				asmFile = argv[i];
+				useful = true;
+			}else {
 				std::cerr << "Unrecognized argument: ";
 				std::cerr << argv[i] << std::endl;
 				usageAndDie();
