@@ -9,7 +9,7 @@ void IRProgram::allocGlobals(){
 	{
 		SymOpd * globalOpd = g.second;
 		std::string memLoc = "glb_";
-		const SemSymbol sym = globalOpd->getSym();
+		const SemSymbol * sym = globalOpd->getSym();
 		memLoc += sym->getName();
 		globalOpd->setMemoryLoc("(" + memLoc + ")");
 	}
@@ -26,7 +26,7 @@ void IRProgram::datagenX64(std::ostream& out){
 	{
 		SymOpd * globalOpd = g.second;
 		std::string memLoc = "glb_";
-		const SemSymbol sym = globalOpd->getSym();
+		const SemSymbol * sym = globalOpd->getSym();
 		memLoc += sym->getName();
 		size_t width = sym->getDataType()->getSize();
 		out << memLoc << ": ";
