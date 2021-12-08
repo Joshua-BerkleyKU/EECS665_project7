@@ -225,7 +225,15 @@ void GotoQuad::codegenX64(std::ostream& out){
 }
 
 void IfzQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+	out << "      " 
+	<< cnd->getMovOp()
+	<< " "
+	<< cnd->getMemoryLoc()
+	<< ", \%rcx\n"
+	<< "      cmpq $0, \%rcx\n"
+	<< "      je "
+	<< tgt->getName()
+	<< std::endl;
 }
 
 void NopQuad::codegenX64(std::ostream& out){
