@@ -126,10 +126,73 @@ void Quad::codegenLabels(std::ostream& out){
 }
 
 void BinOpQuad::codegenX64(std::ostream& out){
+	src1->genLoadVal(out, A);
+	src2->genLoadVal(out, B);
+	if (opr == ADD64)
+	{
+		/* code */
+	}
+	else if (opr == SUB64)
+	{
+		/* code */
+	}
+	else if (opr == DIV64)
+	{
+		/* code */
+	}
+	else if (opr == MULT64)
+	{
+		/* code */
+	}
+	else if (opr == EQ64)
+	{
+		/* code */
+	}
+	else if (opr == NEQ64)
+	{
+		/* code */
+	}
+	else if (opr == LT64)
+	{
+		/* code */
+	}
+	else if (opr == GT64)
+	{
+		/* code */
+	}
+	else if (opr == LTE64)
+	{
+		/* code */
+	}
+	else if (opr == GTE64)
+	{
+		/* code */
+	}
+	else if (opr == OR64)
+	{
+		/* code */
+	}
+	else if (opr == AND64)
+	{
+		/* code */
+	}
+	
+	
 	TODO(Implement me)
 }
 
 void UnaryOpQuad::codegenX64(std::ostream& out){
+	src->genLoadVal(out, A);
+
+	if (op == NEG64)
+	{
+		/* code */
+	}
+	else if (op == NOT64)
+	{
+		/* code */
+	}
+	
 	TODO(Implement me)
 }
 
