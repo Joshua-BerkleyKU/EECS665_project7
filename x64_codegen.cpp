@@ -126,57 +126,93 @@ void Quad::codegenLabels(std::ostream& out){
 }
 
 void BinOpQuad::codegenX64(std::ostream& out){
-	src1->genLoadVal(out, A);
-	src2->genLoadVal(out, B);
+
+	// i don't think i need to do most of the comprisons 
 	if (opr == ADD64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      addq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == SUB64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      subq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == DIV64)
 	{
-		/* code */
+		out << "      movq $0, %rax\n";
+		src1->genLoadVal(out, B);
+		src2->genLoadVal(out, C);
+		out << "      idivq %rcx\n";
+		dst->genStoreVal(out, A);
 	}
 	else if (opr == MULT64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      imulq %rbx\n";
+		dst->genStoreVal(out, A);
 	}
 	else if (opr == EQ64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      subq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == NEQ64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      subq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == LT64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      subq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == GT64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      subq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == LTE64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      subq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == GTE64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      subq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == OR64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      orq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
 	else if (opr == AND64)
 	{
-		/* code */
+		src1->genLoadVal(out, A);
+		src2->genLoadVal(out, B);
+		out << "      andq %rax, %rbx\n";
+		dst->genStoreVal(out, B);
 	}
-	
 	
 	TODO(Implement me)
 }
@@ -186,14 +222,13 @@ void UnaryOpQuad::codegenX64(std::ostream& out){
 
 	if (op == NEG64)
 	{
-		/* code */
+		out << "      negq %rax\n";
 	}
 	else if (op == NOT64)
 	{
-		/* code */
+		out << "      notq %rax\n";
 	}
-	
-	TODO(Implement me)
+	dst->genStoreVal(out, A);
 }
 
 void AssignQuad::codegenX64(std::ostream& out){
