@@ -157,6 +157,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
 		out << "      sete \%cl\n";
 	}
 	else if (opr == NEQ64)
@@ -164,6 +165,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
 		out << "      setne \%cl\n";
 	}
 	else if (opr == LT64)
@@ -171,6 +173,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
 		out << "      setl \%cl\n";
 	}
 	else if (opr == GT64)
@@ -178,6 +181,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
 		out << "      setg \%cl\n";
 	}
 	else if (opr == LTE64)
@@ -185,6 +189,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
 		out << "      setle \%cl\n";
 	}
 	else if (opr == GTE64)
@@ -192,6 +197,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src1->genLoadVal(out, A);
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
+		out << "      movq $0, %rcx\n";
 		out << "      setge \%cl\n";
 	}
 	else if (opr == OR64)
