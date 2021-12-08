@@ -208,7 +208,7 @@ void IndexQuad::codegenX64(std::ostream& out){
 void SymOpd::genLoadVal(std::ostream& out, Register reg){
 	// need to do more
 	// need to worry about how long the stuff is 
-	out << "     movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
+	out << "      movq " << this->getMemoryLoc() << ", " << RegUtils::reg64(reg) << "\n";
 	//TODO(Implement me)
 }
 
