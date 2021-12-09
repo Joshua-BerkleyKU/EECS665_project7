@@ -165,8 +165,15 @@ public:
 	virtual std::string getMemoryLoc() override{
 		throw InternalError("Tried to get location of a constant");
 	}
+	virtual void setMemoryLoc(std::string loc){
+		myLoc = loc;
+	}
+	virtual std::string getMemoryLoc() override{
+		return myLoc;
+	}
 private:
 	std::string val;
+	std::string myLoc;
 };
 
 class AuxOpd : public Opd{
