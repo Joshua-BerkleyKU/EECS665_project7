@@ -4,7 +4,10 @@ int main()
 	int b;
 	int c;
 	a = 4;
-	b = 5;
-	c = a + b;
-	report c;
+	b = 4;
+	c = 3;
+	if (a != b)
+	{
+		report c;
+	}
 }
