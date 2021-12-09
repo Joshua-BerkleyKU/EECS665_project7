@@ -2,7 +2,7 @@ int main()
 {
 	int a;
 	a = 0;
-	while (a == a) {
+	while (a < 5) {
 		report "bruh\n";
 		a = a + 1;
 	}
