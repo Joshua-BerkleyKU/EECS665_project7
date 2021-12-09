@@ -1,18 +1,6 @@
-int a;
-
 int main()
 {
-	int b;
-	int c;
-	a = 4;
-	b = 4;
-	c = 3;
-	if ( a != b)
-	{
-		report c;
-	}
-	else
-	{
-		report a;
-	}
+	string a;
+	a = "test"
+	report a;
 }

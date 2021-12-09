@@ -161,7 +161,7 @@ public:
 	virtual void genStoreAddr(std::ostream& out, Register reg) override{ 
 		throw new InternalError("Cannot set the addr of a literal");
 	}
-
+	// sorry not sorry 
 	/*virtual std::string getMemoryLoc() override{
 		throw InternalError("Tried to get location of a constant");
 	}*/
