@@ -168,9 +168,9 @@ public:
 	virtual void setMemoryLoc(std::string loc){
 		myLoc = loc;
 	}
-	virtual std::string getMemoryLoc() override{
+	/*virtual std::string getMemoryLoc() override{
 		return myLoc;
-	}
+	}*/
 private:
 	std::string val;
 	std::string myLoc;
