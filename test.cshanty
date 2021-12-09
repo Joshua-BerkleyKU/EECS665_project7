@@ -7,12 +7,11 @@ int main()
 	a = 4;
 	b = 4;
 	c = 3;
-	if (a != b)
-	{
-		report c;
-	}
-	else
+	while (a == b)
 	{
 		report a;
+		report c;
+		a++;
 	}
+	report a;
 }
