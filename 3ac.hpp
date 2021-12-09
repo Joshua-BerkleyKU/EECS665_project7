@@ -162,13 +162,13 @@ public:
 		throw new InternalError("Cannot set the addr of a literal");
 	}
 
-	virtual std::string getMemoryLoc() override{
+	/*virtual std::string getMemoryLoc() override{
 		throw InternalError("Tried to get location of a constant");
-	}
-	void setLoc(std::string loc){
+	}*/
+	virtual void setMemoryLoc(std::string loc){
 		myLoc = loc;
 	}
-	std::string getLoc(){
+	virtual std::string getMemoryLoc() override{
 		return myLoc;
 	}
 private:
