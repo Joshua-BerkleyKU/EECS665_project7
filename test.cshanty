@@ -1,5 +1,5 @@
 void bruh() {
-	report true;
+	report "bruh\n";
 }
 
 int main()
