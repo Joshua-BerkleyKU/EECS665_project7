@@ -1,6 +1,9 @@
+void bruh() {
+	report 1;
+}
+
 int main()
 {
-	string bruh;
-  	bruh = "bruh";
-	report bruh;
+	bruh();
+	return 0;
 }
