@@ -190,8 +190,8 @@ namespace cshanty
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
-			out << "      cmpq %rax, %rbx\n";
 			out << "      movq $0, %rcx\n";
+			out << "      cmpq %rax, %rbx\n";
 			out << "      sete %cl\n";
 			dst->genStoreVal(out, C);
 		}
@@ -199,8 +199,8 @@ namespace cshanty
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
-			out << "      cmpq %rax, %rbx\n";
 			out << "      movq $0, %rcx\n";
+			out << "      cmpq %rax, %rbx\n";
 			out << "      setne %cl\n";
 			dst->genStoreVal(out, C);
 		}
@@ -208,8 +208,8 @@ namespace cshanty
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
-			out << "      cmpq %rax, %rbx\n";
 			out << "      movq $0, %rcx\n";
+			out << "      cmpq %rax, %rbx\n";
 			out << "      setl %cl\n";
 			dst->genStoreVal(out, C);
 		}
@@ -217,8 +217,8 @@ namespace cshanty
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
-			out << "      cmpq %rax, %rbx\n";
 			out << "      movq $0, %rcx\n";
+			out << "      cmpq %rax, %rbx\n";
 			out << "      setg %cl\n";
 			dst->genStoreVal(out, C);
 		}
@@ -226,8 +226,8 @@ namespace cshanty
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
-			out << "      cmpq %rax, %rbx\n";
 			out << "      movq $0, %rcx\n";
+			out << "      cmpq %rax, %rbx\n";
 			out << "      setle %cl\n";
 			dst->genStoreVal(out, C);
 		}
@@ -235,8 +235,8 @@ namespace cshanty
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
-			out << "      cmpq %rax, %rbx\n";
 			out << "      movq $0, %rcx\n";
+			out << "      cmpq %rax, %rbx\n";
 			out << "      setge %cl\n";
 			dst->genStoreVal(out, C);
 		}
