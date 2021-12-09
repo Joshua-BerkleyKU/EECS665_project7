@@ -1,19 +1,9 @@
-void bruh() {
-	int a;
-	a = 0;
-	while (a < 5) {
-		report a;
-		a = a + 1;
-	}
-}
-
 int main()
 {
 	int a;
 	a = 1;
-	while(a < 3)
+	if(a < 3)
 	{
 		report a;
-		a = a + 1;
 	}
 }
