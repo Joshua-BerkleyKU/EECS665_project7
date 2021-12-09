@@ -311,7 +311,7 @@ void IntrinsicInputQuad::codegenX64(std::ostream& out){
 }
 
 void CallQuad::codegenX64(std::ostream& out){
-	out << "      callq " << callee->getName() << std::endl;
+	out << "      callq fun_" << callee->getName() << std::endl;
 }
 
 void EnterQuad::codegenX64(std::ostream& out){
