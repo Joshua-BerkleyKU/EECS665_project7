@@ -5,7 +5,7 @@ namespace cshanty{
 
 void IRProgram::allocGlobals(){
 	//Choose a label for each global
-	int temp = 1;
+	int temp = 0;
 	for (auto g: globals)
 	{
 		SymOpd * globalOpd = g.second;
@@ -20,7 +20,7 @@ void IRProgram::allocGlobals(){
 		std::string memLoc = "str_";
 		std::string temp1 = std::to_string(temp);
 		memLoc += temp1;
-		stringlOpd->setMemoryLoc("(" + memLoc + ")");
+		stringlOpd->setMemoryLoc(memLoc);
 		temp++;
 	}
 }
@@ -47,14 +47,14 @@ void IRProgram::datagenX64(std::ostream& out){
 		}
 		
 	}
-	int temp = 1;
+	int temp = 0;
 	for (auto s: strings)
 	{
 		LitOpd * stringlOpd = s.first;
 		std::string memLoc = "str_";
 		std::string temp1 = std::to_string(temp);
 		memLoc += temp1;
-		out << memLoc << ": .asciz \"" + s.second + "\" \n";
+		out << memLoc << ": .asciz " + s.second + " \n";
 		temp++;
 	}
 	//Put this directive after you write out strings
@@ -158,6 +158,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 	}
 	else if (opr == DIV64)
 	{
+		// todo unstable find a fix
 		out << "      movq $0, %rax\n";
 		src1->genLoadVal(out, B);
 		src2->genLoadVal(out, C);
@@ -178,6 +179,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
 		out << "      sete %cl\n";
+		dst->genStoreVal(out, C);
 	}
 	else if (opr == NEQ64)
 	{
@@ -186,6 +188,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
 		out << "      setne %cl\n";
+		dst->genStoreVal(out, C);
 	}
 	else if (opr == LT64)
 	{
@@ -194,6 +197,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
 		out << "      setl %cl\n";
+		dst->genStoreVal(out, C);
 	}
 	else if (opr == GT64)
 	{
@@ -202,6 +206,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
 		out << "      setg %cl\n";
+		dst->genStoreVal(out, C);
 	}
 	else if (opr == LTE64)
 	{
@@ -210,6 +215,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
 		out << "      setle %cl\n";
+		dst->genStoreVal(out, C);
 	}
 	else if (opr == GTE64)
 	{
@@ -218,6 +224,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
 		out << "      setge %cl\n";
+		dst->genStoreVal(out, C);
 	}
 	else if (opr == OR64)
 	{
@@ -477,7 +484,7 @@ void AddrOpd::genLoadAddr(std::ostream & out, Register reg){
 }
 
 void LitOpd::genLoadVal(std::ostream & out, Register reg){
-	out << getMovOp() << " $" << val << ", " << getReg(reg) << "\n";
+	out << "      " << getMovOp() << " $" << val << ", " << getReg(reg) << "\n";
 }
 
 }

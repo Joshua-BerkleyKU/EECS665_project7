@@ -1,13 +1,6 @@
 int main()
 {
-	int a;
-	int b;
-	int c;
-	a = 4;
-	b = 4;
-	c = 3;
-	if (a != b)
-	{
-		report c;
-	}
+	string bruh;
+  	bruh = "bruh";
+	report bruh;
 }
