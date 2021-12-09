@@ -5,7 +5,7 @@ namespace cshanty{
 
 void IRProgram::allocGlobals(){
 	//Choose a label for each global
-	int temp = 1;
+	int temp = 0;
 	for (auto g: globals)
 	{
 		SymOpd * globalOpd = g.second;
@@ -47,7 +47,7 @@ void IRProgram::datagenX64(std::ostream& out){
 		}
 		
 	}
-	int temp = 1;
+	int temp = 0;
 	for (auto s: strings)
 	{
 		LitOpd * stringlOpd = s.first;
