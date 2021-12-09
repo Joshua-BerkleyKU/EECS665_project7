@@ -7,10 +7,11 @@ int main()
 	a = 4;
 	b = 4;
 	c = 3;
+	report a;
+	report c;
 	while (a == b)
 	{
 		report a;
 		report c;
-		a++;
 	}
 }
