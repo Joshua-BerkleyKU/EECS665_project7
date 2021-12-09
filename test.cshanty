@@ -6,7 +6,7 @@ int main()
 	a = 4;
 	b = 4;
 	c = 3;
-	if (a == b)
+	if (a != b)
 	{
 		report c;
 	}
