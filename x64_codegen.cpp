@@ -368,9 +368,16 @@ void GetArgQuad::codegenX64(std::ostream& out){
 }
 
 void SetRetQuad::codegenX64(std::ostream& out){
+	
 	if (myIsRecord == false)
 	{
-		out << "     movq " + opd->getMemoryLoc() + ", %rsi \n";
+		if (opd->getWidth() == 8)
+		{
+			out << "     movq " + opd->getMemoryLoc() + ", %rsi \n";
+		}
+		else {
+			out << "     movq " + opd->valString() + ", %rsi \n";
+		}
 	}
 	else
 	{

@@ -1,3 +1,7 @@
+void bruh() {
+	report 1;
+}
+
 int main()
 {
 	int a;
