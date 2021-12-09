@@ -1,5 +1,9 @@
 void bruh() {
-	report "bruh\n";
+	int a = 0;
+	while (a < 5) {
+		report a;
+		a = a + 1;
+	}
 }
 
 int main()
