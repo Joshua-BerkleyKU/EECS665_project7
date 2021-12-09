@@ -13,5 +13,6 @@ int main()
 	{
 		report a;
 		report c;
+		a = a + 1;
 	}
 }
