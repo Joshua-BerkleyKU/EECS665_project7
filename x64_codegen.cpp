@@ -327,7 +327,7 @@ void LeaveQuad::codegenX64(std::ostream& out){
 }
 
 void SetArgQuad::codegenX64(std::ostream& out){
-	std::string location = '-' + to_string(((int)getIndex() * 8) + 24);
+	std::string location = '-' + to_string(((int)index * 8) + 24);
 	out << "      leaq "
 	<< location
 	<< "(%rbp), %rax\n";
@@ -389,7 +389,14 @@ void SymOpd::genStoreVal(std::ostream& out, Register reg){
 }
 
 void SymOpd::genLoadAddr(std::ostream& out, Register reg) {
-	TODO(Implement me if necessary)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", (" << RegUtils::reg64(reg) << ")\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", (" << RegUtils::reg8(reg) << ")\n";
+	}
 }
 
 void AuxOpd::genLoadVal(std::ostream& out, Register reg){
@@ -414,7 +421,14 @@ void AuxOpd::genStoreVal(std::ostream& out, Register reg){
 	}
 }
 void AuxOpd::genLoadAddr(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", (" << RegUtils::reg64(reg) << ")\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", (" << RegUtils::reg8(reg) << ")\n";
+	}
 }
 
 
@@ -441,11 +455,25 @@ void AddrOpd::genLoadVal(std::ostream& out, Register reg){
 }
 
 void AddrOpd::genStoreAddr(std::ostream& out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << RegUtils::reg64(reg) << ", (" << this->getMemoryLoc() << ")\n";
+	}
+	else
+	{
+		out << "      movb " << RegUtils::reg8(reg) << ", (" << this->getMemoryLoc() << ")\n";
+	}
 }
 
 void AddrOpd::genLoadAddr(std::ostream & out, Register reg){
-	TODO(Implement me)
+	if (this->getMovOp() == "movq")
+	{
+		out << "      movq " << this->getMemoryLoc() << ", (" << RegUtils::reg64(reg) << ")\n";
+	}
+	else
+	{
+		out << "      movb " << this->getMemoryLoc() << ", (" << RegUtils::reg8(reg) << ")\n";
+	}
 }
 
 void LitOpd::genLoadVal(std::ostream & out, Register reg){
