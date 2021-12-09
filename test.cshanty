@@ -1,6 +1,5 @@
 int main()
 {
 	string a;
-	a = "test";
-	report a;
+	report "bruh";
 }
