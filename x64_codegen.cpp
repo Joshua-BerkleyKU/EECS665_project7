@@ -373,9 +373,11 @@ void SetRetQuad::codegenX64(std::ostream& out){
 	{
 		if (opd->getWidth() == 8)
 		{
+			out << "# width is " + opd->getWidth() + '\n';
 			out << "     movq " + opd->getMemoryLoc() + ", %rsi \n";
 		}
 		else {
+			out << "# width is " + opd->getWidth() + '\n';
 			out << "     movq " + opd->valString() + ", %rsi \n";
 		}
 	}
