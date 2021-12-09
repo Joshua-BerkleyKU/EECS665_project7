@@ -54,7 +54,7 @@ void IRProgram::datagenX64(std::ostream& out){
 		std::string memLoc = "str_";
 		std::string temp1 = std::to_string(temp);
 		memLoc += temp1;
-		out << memLoc << ": .asciz \"" + s.second + "\" \n";
+		out << memLoc << ": .asciz " + s.second + " \n";
 		temp++;
 	}
 	//Put this directive after you write out strings
