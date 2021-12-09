@@ -158,6 +158,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 	}
 	else if (opr == DIV64)
 	{
+		// todo unstable find a fix
 		out << "      movq $0, %rax\n";
 		src1->genLoadVal(out, B);
 		src2->genLoadVal(out, C);
