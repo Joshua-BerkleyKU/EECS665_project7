@@ -16,7 +16,7 @@ void IRProgram::allocGlobals(){
 	}
 	for (auto s: strings)
 	{
-		LitOpd * stringlOpd = s.key_type;
+		LitOpd * stringlOpd = s.first;
 		std::string memLoc = "str_";
 		std::string temp1 = std::to_string(temp);
 		memLoc += temp1;
@@ -50,11 +50,11 @@ void IRProgram::datagenX64(std::ostream& out){
 	int temp = 1;
 	for (auto s: strings)
 	{
-		LitOpd * stringlOpd = s.first_type;
+		LitOpd * stringlOpd = s.first;
 		std::string memLoc = "str_";
 		std::string temp1 = std::to_string(temp);
 		memLoc += temp1;
-		out << memLoc << ": .asciz \"" + s.second_type + "\" \n";
+		out << memLoc << ": .asciz \"" + s.second + "\" \n";
 		temp++;
 	}
 	//Put this directive after you write out strings
