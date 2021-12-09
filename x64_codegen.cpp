@@ -327,11 +327,28 @@ void GetArgQuad::codegenX64(std::ostream& out){
 }
 
 void SetRetQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+	if (myIsRecord == false)
+	{
+		out << "     movq " + opd->getMemoryLoc() + ", %rsi \n";
+	}
+	else
+	{
+		//the return of a record 
+		TODO(Implement me)
+	}
+	
 }
 
 void GetRetQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+	if (myIsRecord == false)
+	{
+		out << "     movq %rsi, " + opd->getMemoryLoc() + " \n";
+	}
+	else
+	{
+		//the setting of a returned record 
+		TODO(Implement me)
+	}
 }
 
 void IndexQuad::codegenX64(std::ostream& out){
