@@ -355,7 +355,7 @@ void SetArgQuad::codegenX64(std::ostream& out){
 			reg = "%r9";
 			break;
 	}
-	std::string location = '-' + to_string(((int)(index - 1) * 8) + 24);
+	std::string location = '-' + to_string(((index - 1) * 8) + 24);
 	out << "      leaq "
 	<< location
 	<< "(%rbp), "
