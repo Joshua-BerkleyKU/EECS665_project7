@@ -303,7 +303,10 @@ void LeaveQuad::codegenX64(std::ostream& out){
 }
 
 void SetArgQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+	std::string location = '-' + to_string(((int)getIndex() * 8) + 24);
+	out << "      leaq "
+	<< location
+	<< "(%rbp), %rax\n";
 }
 
 void GetArgQuad::codegenX64(std::ostream& out){
