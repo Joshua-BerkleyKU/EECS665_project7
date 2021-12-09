@@ -111,8 +111,9 @@ void Procedure::toX64(std::ostream& out){
 	//Allocate all locals
 	allocLocals();
 
-	enter->setoffset(loc_offset - 16);
-	leave->setoffset(loc_offset - 16);
+	int offset_val = loc_offset - 16;
+	enter->setoffset(offset_val);
+	leave->setoffset(offset_val);
 
 	enter->codegenLabels(out);
 	enter->codegenX64(out);
