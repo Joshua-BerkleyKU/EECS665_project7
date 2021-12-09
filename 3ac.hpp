@@ -165,12 +165,12 @@ public:
 	virtual std::string getMemoryLoc() override{
 		throw InternalError("Tried to get location of a constant");
 	}
-	virtual void setMemoryLoc(std::string loc){
+	void setLoc(std::string loc){
 		myLoc = loc;
 	}
-	/*virtual std::string getMemoryLoc() override{
+	std::string getLoc(){
 		return myLoc;
-	}*/
+	}
 private:
 	std::string val;
 	std::string myLoc;

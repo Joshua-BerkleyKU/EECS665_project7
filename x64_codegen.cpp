@@ -20,7 +20,7 @@ void IRProgram::allocGlobals(){
 		std::string memLoc = "str_";
 		std::string temp1 = std::to_string(temp);
 		memLoc += temp1;
-		stringlOpd->setMemoryLoc("(" + memLoc + ")");
+		stringlOpd->setLoc(memLoc);
 		temp++;
 	}
 }
@@ -289,7 +289,7 @@ void IntrinsicOutputQuad::codegenX64(std::ostream& out){
 		myArg->genLoadVal(out, DI);
 		out << "      callq printInt\n";
 	} else {
-		myArg->genLoadVal(out, DI);
+		out << "      movq " + myArg->getLoc() + ", %rdi\n";
 		out << "      callq printString\n";
 	}
 }
