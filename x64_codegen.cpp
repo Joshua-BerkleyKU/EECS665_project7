@@ -50,11 +50,11 @@ void IRProgram::datagenX64(std::ostream& out){
 	int temp = 1;
 	for (auto s: strings)
 	{
-		LitOpd * stringlOpd = s.key_type;
+		LitOpd * stringlOpd = s.first_type;
 		std::string memLoc = "str_";
 		std::string temp1 = std::to_string(temp);
 		memLoc += temp1;
-		out << memLoc << ": .asciz \"" + s.mapped_type + "\" \n";
+		out << memLoc << ": .asciz \"" + s.second_type + "\" \n";
 		temp++;
 	}
 	//Put this directive after you write out strings
@@ -172,7 +172,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
-		out << "      sete \%cl\n";
+		out << "      sete %cl\n";
 	}
 	else if (opr == NEQ64)
 	{
@@ -180,7 +180,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
-		out << "      setne \%cl\n";
+		out << "      setne %cl\n";
 	}
 	else if (opr == LT64)
 	{
@@ -188,7 +188,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
-		out << "      setl \%cl\n";
+		out << "      setl %cl\n";
 	}
 	else if (opr == GT64)
 	{
@@ -196,7 +196,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
-		out << "      setg \%cl\n";
+		out << "      setg %cl\n";
 	}
 	else if (opr == LTE64)
 	{
@@ -204,7 +204,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
-		out << "      setle \%cl\n";
+		out << "      setle %cl\n";
 	}
 	else if (opr == GTE64)
 	{
@@ -212,7 +212,7 @@ void BinOpQuad::codegenX64(std::ostream& out){
 		src2->genLoadVal(out, B);
 		out << "      cmpq %rax, %rbx\n";
 		out << "      movq $0, %rcx\n";
-		out << "      setge \%cl\n";
+		out << "      setge %cl\n";
 	}
 	else if (opr == OR64)
 	{
