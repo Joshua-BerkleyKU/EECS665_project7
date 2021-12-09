@@ -9,10 +9,4 @@ int main()
 	c = 3;
 	report b;
 	report c;
-	while (a == b)
-	{
-		report b;
-		report c;
-		a = a + 1;
-	}
 }
