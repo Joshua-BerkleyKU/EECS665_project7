@@ -1,6 +1,10 @@
 int main()
 {
-	string bruh;
-  	bruh = "bruh";
-	report bruh;
+	int a;
+	a = 1
+	while( a < 3)
+	{
+		report a;
+		a = a + 1;
+	}
 }
