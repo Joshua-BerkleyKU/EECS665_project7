@@ -453,7 +453,7 @@ void AddrOpd::genLoadAddr(std::ostream & out, Register reg){
 }
 
 void LitOpd::genLoadVal(std::ostream & out, Register reg){
-	out << getMovOp() << " $" << val << ", " << getReg(reg) << "\n";
+	out << "     " << getMovOp() << " $" << val << ", " << getReg(reg) << "\n";
 }
 
 }
