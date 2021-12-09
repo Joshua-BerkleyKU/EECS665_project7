@@ -1,6 +1,6 @@
 int main()
 {
-	string a;
-	a = "bruh";
-	report a;
+	string bruh;
+  	bruh = "bruh";
+	report bruh;
 }
