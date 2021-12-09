@@ -1,10 +1,10 @@
 int main()
 {
 	int a;
-	a = 1;
-	while(a != 5)
-	{
-		report a;
-		a++;
-	}
+	int b;
+	int c;
+	a = 4;
+	b = 2;
+	c = a / b;
+	report c;
 }
