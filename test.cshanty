@@ -7,6 +7,12 @@ int main()
 	a = 4;
 	b = 4;
 	c = 3;
-	report b;
-	report c;
+	if ( a != b)
+	{
+		report c;
+	}
+	else
+	{
+		report a;
+	}
 }
