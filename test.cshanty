@@ -5,6 +5,6 @@ int main()
 	int c;
 	a = 4;
 	b = 2;
-	c = a / b;
+	c = b / a;
 	report c;
 }
