@@ -1,5 +1,6 @@
 void bruh() {
-	int a = 0;
+	int a;
+	a = 0;
 	while (a < 5) {
 		report a;
 		a = a + 1;
