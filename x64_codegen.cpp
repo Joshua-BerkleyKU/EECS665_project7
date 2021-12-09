@@ -334,10 +334,33 @@ void LeaveQuad::codegenX64(std::ostream& out){
 }
 
 void SetArgQuad::codegenX64(std::ostream& out){
-	std::string location = '-' + to_string(((int)index * 8) + 24);
+	std::string reg;
+	switch(index) {
+		case 1: 
+			reg = "%rdi";
+			break;
+		case 2: 
+			reg = "%rsi";
+			break;
+		case 3: 
+			reg = "%rdx";
+			break;
+		case 4: 
+			reg = "%rcx";
+			break;
+		case 5: 
+			reg = "%r8";
+			break;
+		case 6: 
+			reg = "%r9";
+			break;
+	}
+	std::string location = '-' + to_string(((int)(index - 1) * 8) + 24);
 	out << "      leaq "
 	<< location
-	<< "(%rbp), %rax\n";
+	<< "(%rbp), "
+	<< reg
+	<< std::endl;
 }
 
 void GetArgQuad::codegenX64(std::ostream& out){
