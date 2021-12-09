@@ -111,6 +111,9 @@ void Procedure::toX64(std::ostream& out){
 	//Allocate all locals
 	allocLocals();
 
+	enter->setoffset(loc_offset - 16);
+	leave->setoffset(loc_offset - 16);
+
 	enter->codegenLabels(out);
 	enter->codegenX64(out);
 	out << "#Fn body " << myName << "\n";
@@ -299,16 +302,18 @@ void CallQuad::codegenX64(std::ostream& out){
 void EnterQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
 	//todo change 0 to real val
+	std::string offset = std::to_string(total_offset);
 	out << "      pushq %rbp\n";
 	out << "      movq %rsp, %rbp\n";
 	out << "      addq $16, %rbp\n";
-	out << "      subq $8, %rsp\n";
+	out << "      subq $" + offset + ", %rsp\n";
 }
 
 void LeaveQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
 	//todo change 0 to real val
-	out << "      addq $8, %rsp\n";
+	std::string offset = std::to_string(total_offset);
+	out << "      addq $" + offset + ", %rsp\n";
 	out << "      popq %rbp\n";
 	out << "      retq\n";
 }

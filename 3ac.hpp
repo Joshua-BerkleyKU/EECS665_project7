@@ -387,8 +387,12 @@ public:
 	EnterQuad(Procedure * proc);
 	virtual std::string repr() override;
 	void codegenX64(std::ostream& out) override;
+	virtual void setoffset(int offset){
+		total_offset = offset;
+	}
 private:
 	Procedure * myProc;
+	int total_offset;
 };
 
 class LeaveQuad : public Quad{
@@ -396,8 +400,12 @@ public:
 	LeaveQuad(Procedure * proc);
 	virtual std::string repr() override;
 	void codegenX64(std::ostream& out) override;
+	virtual void setoffset(int offset){
+		total_offset = offset;
+	}
 private:
 	Procedure * myProc;
+	int total_offset;
 };
 
 class SetArgQuad : public Quad{
