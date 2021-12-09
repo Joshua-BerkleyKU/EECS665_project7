@@ -5,6 +5,7 @@ namespace cshanty{
 
 void IRProgram::allocGlobals(){
 	//Choose a label for each global
+	int temp = 1;
 	for (auto g: globals)
 	{
 		SymOpd * globalOpd = g.second;
@@ -15,13 +16,19 @@ void IRProgram::allocGlobals(){
 	}
 	for (auto s: strings)
 	{
-		TODO(Implement me)
+		LitOpd * stringlOpd = s.key_type;
+		std::string memLoc = "str_";
+		std::string temp1 = std::to_string(temp);
+		memLoc += temp1;
+		stringlOpd->setMemoryLoc("(" + memLoc + ")");
+		temp++;
 	}
 }
 
 void IRProgram::datagenX64(std::ostream& out){
 	out << ".globl main\n";
 	out << ".data\n";
+	
 	for (auto g: globals)
 	{
 		SymOpd * globalOpd = g.second;
@@ -39,6 +46,16 @@ void IRProgram::datagenX64(std::ostream& out){
 			out << ".space " << width << "\n";
 		}
 		
+	}
+	int temp = 1;
+	for (auto s: strings)
+	{
+		LitOpd * stringlOpd = s.key_type;
+		std::string memLoc = "str_";
+		std::string temp1 = std::to_string(temp);
+		memLoc += temp1;
+		out << memLoc << ": .asciz \"" + s.mapped_type + "\" \n";
+		temp++;
 	}
 	//Put this directive after you write out strings
 	// so that everything is aligned to a quadword value
@@ -65,8 +82,6 @@ void Procedure::allocLocals(){
 	loc_offset = 24;
 	for (auto t: temps)
 	{
-		std::string memLoc = "loc_";
-		memLoc += t->getName();
 		std::string temp = std::to_string(loc_offset);
 		t->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
@@ -74,18 +89,14 @@ void Procedure::allocLocals(){
 	for (auto l: locals)
 	{
 		SymOpd * localsOpd = l.second;
-		std::string memLoc = "loc_";
 		const SemSymbol * sym = localsOpd->getSym();
-		memLoc += sym->getName();
 		std::string temp = std::to_string(loc_offset);
 		localsOpd->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
 	}
 	for (auto f: formals)
 	{
-		std::string memLoc = "loc_";
 		std::string temp = std::to_string(loc_offset);
-		memLoc += f->getName();
 		f->setMemoryLoc("-" + temp + "(%rsp)");
 		loc_offset = loc_offset + 8;
 	}
@@ -99,6 +110,9 @@ void Procedure::allocLocals(){
 void Procedure::toX64(std::ostream& out){
 	//Allocate all locals
 	allocLocals();
+
+	enter->setoffset(loc_offset - 16);
+	leave->setoffset(loc_offset - 16);
 
 	enter->codegenLabels(out);
 	enter->codegenX64(out);
@@ -288,16 +302,18 @@ void CallQuad::codegenX64(std::ostream& out){
 void EnterQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
 	//todo change 0 to real val
+	std::string offset = std::to_string(total_offset);
 	out << "      pushq %rbp\n";
 	out << "      movq %rsp, %rbp\n";
 	out << "      addq $16, %rbp\n";
-	out << "      subq $8, %rsp\n";
+	out << "      subq $" + offset + ", %rsp\n";
 }
 
 void LeaveQuad::codegenX64(std::ostream& out){
 	// need to find a way to get all allocated space on the stack
 	//todo change 0 to real val
-	out << "      addq $8, %rsp\n";
+	std::string offset = std::to_string(total_offset);
+	out << "      addq $" + offset + ", %rsp\n";
 	out << "      popq %rbp\n";
 	out << "      retq\n";
 }
@@ -314,11 +330,28 @@ void GetArgQuad::codegenX64(std::ostream& out){
 }
 
 void SetRetQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+	if (myIsRecord == false)
+	{
+		out << "     movq " + opd->getMemoryLoc() + ", %rsi \n";
+	}
+	else
+	{
+		//the return of a record 
+		TODO(Implement me)
+	}
+	
 }
 
 void GetRetQuad::codegenX64(std::ostream& out){
-	TODO(Implement me)
+	if (myIsRecord == false)
+	{
+		out << "     movq %rsi, " + opd->getMemoryLoc() + " \n";
+	}
+	else
+	{
+		//the setting of a returned record 
+		TODO(Implement me)
+	}
 }
 
 void IndexQuad::codegenX64(std::ostream& out){
