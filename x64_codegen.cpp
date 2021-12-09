@@ -204,7 +204,7 @@ namespace cshanty
 			out << "      setne %cl\n";
 			dst->genStoreVal(out, C);
 		}
-		else if (opr == LT64)
+		else if (opr == GT64)
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
@@ -213,7 +213,7 @@ namespace cshanty
 			out << "      setl %cl\n";
 			dst->genStoreVal(out, C);
 		}
-		else if (opr == GT64)
+		else if (opr == LT64)
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
@@ -222,7 +222,7 @@ namespace cshanty
 			out << "      setg %cl\n";
 			dst->genStoreVal(out, C);
 		}
-		else if (opr == LTE64)
+		else if (opr == GTE64)
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
@@ -231,7 +231,7 @@ namespace cshanty
 			out << "      setle %cl\n";
 			dst->genStoreVal(out, C);
 		}
-		else if (opr == GTE64)
+		else if (opr == LTE64)
 		{
 			src1->genLoadVal(out, A);
 			src2->genLoadVal(out, B);
